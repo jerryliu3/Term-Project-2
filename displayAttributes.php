@@ -1,7 +1,7 @@
 <?php
 $table = filter_input(INPUT_POST, 'table');
-$keyIDName = filter_input(INPUT_POST, 'keyIDName');
-$keyIDValue = filter_input(INPUT_POST, 'keyIDValue');
+$tuple1 = filter_input(INPUT_POST, 'tuple1');
+$tuple2 = filter_input(INPUT_POST, 'tuple2');
 
 $servername = "localhost";
 $username = "root";
@@ -19,17 +19,14 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// sql to delete value
-$sql = "DELETE FROM $table WHERE $keyIDName=$keyIDValue";
+$sql = "SELECT id, firstname, lastname FROM MyGuests";
 
-if ($conn->query($sql) === TRUE) {
-    echo "Deletion successful";
-} else {
-    echo "Error deleting " . $conn->error;
-}
-
-
-
+$result = $conn->query($sql);
+echo($result);
 mysqli_close($conn);
+
+echo "Displayed successfully";
+
+// readfile('index.html');
 include('index.html');
 ?>

@@ -20,19 +20,16 @@ if (!$conn) {
 
     die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "INSERT INTO $table(chID, chname, chsalary, chgender) 
-VALUES($chID, $chname, $chsalary, $chgender)";
+$sql = "INSERT INTO $table (chID, chname, chsalary, chgender) 
+VALUES('$chID', '$chname', '$chsalary', '$chgender')";
 
 if ($conn->query($sql) === TRUE) {
-			//echo "Table chefs created successfully";
-		} else {
-			//echo "Error creating table: " . $conn->error;
-		}
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
 
 mysqli_close($conn);
 
-echo "Inserted successfully";
-
-// readfile('index.html');
 include('index.html');
 ?>
