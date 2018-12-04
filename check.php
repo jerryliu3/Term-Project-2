@@ -12,7 +12,6 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
 
 if (!$conn) {
-
     //echo("Connection failed: " . mysqli_connect_error());
 	// Create database because it doesn't exist
 	$conn = mysqli_connect($servername, $username, $password);
