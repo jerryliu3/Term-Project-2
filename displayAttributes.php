@@ -1,7 +1,6 @@
 <?php
 $table = filter_input(INPUT_POST, 'table');
-$tuple1 = filter_input(INPUT_POST, 'tuple1');
-$tuple2 = filter_input(INPUT_POST, 'tuple2');
+$attributes = filter_input(INPUT_POST, 'attributes');
 
 $servername = "localhost";
 $username = "root";
@@ -19,13 +18,24 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT id, firstname, lastname FROM MyGuests";
-
+$sql = "SELECT $attributes FROM $table";
 $result = $conn->query($sql);
-echo($result);
-mysqli_close($conn);
 
-echo "Displayed successfully";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		echo"<tr>";
+        foreach($row as $field) {
+			echo '<td>' . htmlspecialchars($field) . '</td>';
+		}
+		echo"</tr>";
+	}
+    echo "</table>";
+} else {
+    echo "0 results";
+}
+	
+mysqli_close($conn);
 
 // readfile('index.html');
 include('index.html');

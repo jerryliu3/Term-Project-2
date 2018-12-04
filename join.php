@@ -1,8 +1,5 @@
 <?php
 $table = filter_input(INPUT_POST, 'table');
-$keyAttribute = filter_input(INPUT_POST, 'keyAttribute');
-$keyID1 = filter_input(INPUT_POST, 'keyID1');
-$keyID2 = filter_input(INPUT_POST, 'keyID2');
 
 $servername = "localhost";
 $username = "root";
@@ -20,11 +17,23 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT * FROM $table WHERE $keyAttribute BETWEEN $keyID1 AND $keyID2";
+$sql = "SELECT * FROM customer
+INNER JOIN dining_table ON customer.table_number=dining_table.tnumber;";
 $result = $conn->query($sql);
 
+/* this creates a joined table (with a repeated table number column),
+need to try creating the same as a view so it can be referenced and
+maybe displayed directly through the view, as well as use a subquery
+to extract the information about a specific table number chosen by the user 
+
+
+Or maybe take a specific attribute from the join and use that on another table
+ for the subquery*/
+
+
 if ($result->num_rows > 0) {
-    echo "<table><tr><th>ID</th><th>Name</th><th>Salary</th><th>Gender</th></tr>";
+	echo "Sitting at table $table". '</td>';
+	echo "<table>";
     // output data of each row
     while($row = $result->fetch_assoc()) {
 		echo"<tr>";

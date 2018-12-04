@@ -3,20 +3,31 @@
   <head>
     <title>Database Term Project 2</title>
   </head>
-  <h1>Insertion</h1>
+  <h1>Choose Table to Insert to</h1>
   
-<form method="POST" action="insert.php">
-	Chef Table:<br>
-	<input type="hidden" value="chef" name="table"><br>
-	Chef ID:<br>
-	<input type="text" name="chID"><br>
-	Chef Name:<br>
-	<input type="text" name="chname"><br>
-	Chef Salary:<br>
-	<input type="text" name="chsalary"><br>
-	Chef Gender:<br>
-	<input type="text" name="chgender"><br>
-	<input type="submit" value="Submit">
+<form method="POST" action="insertChef.html">
+	<input type="submit" value="Chef">
+</form>
+<form method="POST" action="insertFood.html">
+	<input type="submit" value="Food Item">
+</form>
+<form method="POST" action="insertOrder.html">
+	<input type="submit" value="Order">
+</form>
+<form method="POST" action="insertOwner.html">
+	<input type="submit" value="Owner">
+</form>
+<form method="POST" action="insertTable.html">
+	<input type="submit" value="Dining Table">
+</form>
+<form method="POST" action="insertCustomer.html">
+	<input type="submit" value="Customer">
+</form>
+<form method="POST" action="insertWaitor.html">
+	<input type="submit" value="Waitor">
+</form>
+<form method="POST" action="index.html">
+	<input type="submit" value="Home">
 </form>
 
 </html>

@@ -1,8 +1,3 @@
--- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: mydatabase
--- ------------------------------------------------------
--- Server version	8.0.13
 CREATE DATABASE restaurant;
 use restaurant;
  SET NAMES utf8 ;
@@ -16,28 +11,20 @@ CREATE TABLE chef (
   chgender char(1) DEFAULT NULL,
   PRIMARY KEY (chID)
 ) ;
---
--- Dumping data for table chef
---
 
 LOCK TABLES chef WRITE;
 INSERT INTO chef VALUES ('33732','Ella',5300,'F'),('34240','Wendy',5000,'F'),('38967','James',5500,'M'),('59172','Lorry',5000,'M');
 UNLOCK TABLES;
 
---
--- Table structure for table choose
---
-
 DROP TABLE IF EXISTS choose;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE choose (
-  tnumber char(3) NOT NULL,
+  tnumber char(3),
   FID char(3) NOT NULL,
   PRIMARY KEY (tnumber,FID),
   KEY FID_idx (FID),
-  CONSTRAINT FID FOREIGN KEY (FID) REFERENCES food_item (fid),
-  CONSTRAINT tnumber FOREIGN KEY (tnumber) REFERENCES dining_table (tnumber)
-) ;
+  FOREIGN KEY (tnumber) REFERENCES dining_table(tnumber)
+  ) ;
 --
 -- Dumping data for table choose
 --
@@ -63,7 +50,7 @@ CREATE TABLE customer (
   table_number char(3) DEFAULT NULL,
   PRIMARY KEY (cuSSN),
   KEY table_number_idx (table_number),
-  CONSTRAINT table_number FOREIGN KEY (table_number) REFERENCES dining_table (tnumber)
+  FOREIGN KEY (table_number) REFERENCES dining_table (tnumber)
 ) ;
 --
 -- Dumping data for table customer
@@ -84,15 +71,15 @@ DROP TABLE IF EXISTS dining_table;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE dining_table (
   tnumber char(3) NOT NULL,
-  time time DEFAULT NULL,
+  dtime time DEFAULT NULL,
   num_seats int(11) DEFAULT NULL,
   order_number char(4) DEFAULT NULL,
   waitorID char(5) DEFAULT NULL,
   PRIMARY KEY (tnumber),
   KEY order_number_idx (order_number),
   KEY waitorID_idx (waitorID),
-  CONSTRAINT order_number FOREIGN KEY (order_number) REFERENCES order (onumber),
-  CONSTRAINT waitorID FOREIGN KEY (waitorID) REFERENCES waitor (waid)
+  FOREIGN KEY (order_number) REFERENCES orderlist(order_number),
+  FOREIGN KEY (waitorID) REFERENCES waitor(waID)
 ) ;
 --
 -- Dumping data for table dining_table
@@ -116,8 +103,8 @@ CREATE TABLE employch (
   chID char(5) NOT NULL,
   PRIMARY KEY (SSN,chID),
   KEY chID_idx (chID),
-  CONSTRAINT chID FOREIGN KEY (chID) REFERENCES chef (chid),
-  CONSTRAINT chSSN FOREIGN KEY (SSN) REFERENCES owners (ssn)
+  FOREIGN KEY (chID) REFERENCES chef(chID),
+  chSSN FOREIGN KEY (SSN) REFERENCES owners(SSN)
 ) ;
 --
 -- Dumping data for table employch
@@ -141,8 +128,8 @@ CREATE TABLE employwa (
   waID char(5) NOT NULL,
   PRIMARY KEY (SSN,waID),
   KEY waID_idx (waID),
-  CONSTRAINT waID FOREIGN KEY (waID) REFERENCES waitor (waid),
-  CONSTRAINT waSSN FOREIGN KEY (SSN) REFERENCES owners (ssn)
+  FOREIGN KEY (waID) REFERENCES waitor(waID),
+  FOREIGN KEY (SSN) REFERENCES owners(SSN)
 ) ;
 --
 -- Dumping data for table employwa
@@ -163,13 +150,13 @@ DROP TABLE IF EXISTS food_item;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE food_item (
   FID char(3) NOT NULL,
-  type char(1) DEFAULT NULL,
+  ftype char(1) DEFAULT NULL,
   fname varchar(20) DEFAULT NULL,
   price int(11) DEFAULT NULL,
   chefID char(5) DEFAULT NULL,
   PRIMARY KEY (FID),
   KEY chefID_idx (chefID),
-  CONSTRAINT chefID FOREIGN KEY (chefID) REFERENCES chef (chid)
+  FOREIGN KEY (chefID) REFERENCES chef(chID)
 ) ;
 --
 -- Dumping data for table food_item
@@ -182,28 +169,28 @@ INSERT INTO food_item VALUES ('123','B','Bacon bomb',7,'33732'),('258','M','Cris
 UNLOCK TABLES;
 
 --
--- Table structure for table order
+-- Table structure for table orderlist
 --
 
-DROP TABLE IF EXISTS order;
+DROP TABLE IF EXISTS orderlist;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE order (
-  onumber char(4) NOT NULL,
+CREATE TABLE orderlist (
+  order_number char(4) NOT NULL,
   fee int(11) DEFAULT NULL,
-  comment varchar(50) DEFAULT NULL,
+  feedback varchar(50) DEFAULT NULL,
   payment char(1) DEFAULT NULL,
-  date date DEFAULT NULL,
-  PRIMARY KEY (onumber)
+  order_date date DEFAULT NULL,
+  PRIMARY KEY (order_number)
 ) ;
 --
--- Dumping data for table order
+-- Dumping data for table orderlist
 --
 
-LOCK TABLES order WRITE;
-/*!40000 ALTER TABLE order DISABLE KEYS */;
-INSERT INTO order VALUES ('0001',22,'Very good!','C','2018-11-11'),('0002',21,'Nice dishes.','V','2018-10-25'),('0003',10,'Delicious.','C','2018-11-13'),('0004',15,'Clean environment.','V','2018-10-14'),('0005',18,'Tasty!','C','2018-11-29'),('0006',16,'Yummy!','V','2018-10-31');
-/*!40000 ALTER TABLE order ENABLE KEYS */;
+LOCK TABLES orderlist WRITE;
+/*!40000 ALTER TABLE orderlist DISABLE KEYS */;
+INSERT INTO orderlist VALUES ('0001',22,'Very good!','C','2018-11-11'),('0002',21,'Nice dishes.','V','2018-10-25'),('0003',10,'Delicious.','C','2018-11-13'),('0004',15,'Clean environment.','V','2018-10-14'),('0005',18,'Tasty!','C','2018-11-29'),('0006',16,'Yummy!','V','2018-10-31');
+/*!40000 ALTER TABLE orderlist ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -215,7 +202,7 @@ DROP TABLE IF EXISTS owners;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE owners (
   SSN char(9) NOT NULL,
-  name varchar(20) DEFAULT NULL,
+  owner_name varchar(20) DEFAULT NULL,
   pho_num char(11) DEFAULT NULL,
   PRIMARY KEY (SSN)
 ) ;
