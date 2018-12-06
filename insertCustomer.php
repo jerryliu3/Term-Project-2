@@ -1,9 +1,10 @@
 <?php
-$table = chef;
-$chID = filter_input(INPUT_POST, 'chID');
-$chname= filter_input(INPUT_POST, 'chname');
-$chsalary = filter_input(INPUT_POST, 'chsalary');
-$chgender = filter_input(INPUT_POST, 'chgender');
+$table = customer;
+$cuSSN = filter_input(INPUT_POST, 'ccuSSN');
+$cuname= filter_input(INPUT_POST, 'cuname');
+$chpho_num = filter_input(INPUT_POST, 'chpho_num');
+$address = filter_input(INPUT_POST, 'address');
+$table_number = filter_input(INPUT_POST, 'table_number');
 
 $servername = "localhost";
 $username = "root";
@@ -20,8 +21,8 @@ if (!$conn) {
 
     die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "INSERT INTO $table (chID, chname, chsalary, chgender) 
-VALUES('$chID', '$chname', $chsalary, '$chgender')";
+$sql = "INSERT INTO $table (cuSSN, cuname, cupho_num, address, table_number) 
+VALUES('$cuSSN', '$cuname', '$cupho_num', '$address', '$table_number')";
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
