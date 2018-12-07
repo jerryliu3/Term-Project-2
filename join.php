@@ -18,7 +18,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT cuname, order_number, waname, fee, feedback, ddate FROM customer
+$sql = "SELECT cuname, order_number, waname, fee, feedback FROM customer
 INNER JOIN dining_table ON customer.table_number=dining_table.tnumber
 INNER JOIN orderlist ON dining_table.order_number=orderlist.onumber
 LEFT JOIN waitor ON dining_table.waitorID=waitor.waID
@@ -28,7 +28,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
 	echo "Information for table $table on $date". '</td>';
-echo "<table><tr><th>Customer Name | </th><th>Order Number | </th><th>Waitor Name | </th><th>Fee | </th><th>Feedback | </th><th>Date | </th></tr>";
+echo "<table><tr><th>Customer Name | </th><th>Order Number | </th><th>Waitor Name | </th><th>Fee | </th><th>Feedback</th></tr>";
     // output data of each row
     while($row = $result->fetch_assoc()) {
 		echo"<tr>";

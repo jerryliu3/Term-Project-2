@@ -31,7 +31,7 @@ if (!$conn) {
 			if ($conn->query($value) === TRUE) {
 				//echo ('success'."<br>");
 			} else {
-				echo "Error creating table: " . $conn->error ."<br>";
+				//echo "Error creating table: " . $conn->error ."<br>";
 			}	  
 		}
 	}
