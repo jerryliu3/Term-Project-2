@@ -18,6 +18,32 @@ if (!$conn) {
 }
 
 $sql = "CREATE OR REPLACE VIEW Earnings AS
+SELECT waname, fee FROM dining_table
+INNER JOIN orderlist ON dining_table.order_number=orderlist.onumber
+RIGHT JOIN waitor ON dining_table.waitorID=waitor.waID
+WHERE (orderlist.ddate='$date')";
+$result = $conn->query($sql);
+
+$sql = "SELECT * FROM Earnings";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+	echo "Unaggregated information of waiters on $date". '</td>';
+	echo "<table><tr><th>Waitor Name | </th><th>Payment</th></tr>";
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		echo"<tr>";
+        foreach($row as $field) {
+			echo '<td>' . htmlspecialchars($field) . '</td>';
+		}
+		echo"</tr>";
+	}
+    echo "</table>";
+} else {
+    echo "0 results";
+}
+
+$sql = "CREATE OR REPLACE VIEW Earnings AS
 SELECT waname, SUM(fee) FROM dining_table
 INNER JOIN orderlist ON dining_table.order_number=orderlist.onumber
 RIGHT JOIN waitor ON dining_table.waitorID=waitor.waID
@@ -29,8 +55,8 @@ $sql = "SELECT * FROM Earnings";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-	echo "Performance of waitors on $date". '</td>';
-	echo "<table><tr><th>Waitor Name | </th><th>Payment from tables</th></tr>";
+	echo "Aggregated performance of waiters on $date". '</td>';
+	echo "<table><tr><th>Waiter Name | </th><th>Payment from tables</th></tr>";
     // output data of each row
     while($row = $result->fetch_assoc()) {
 		echo"<tr>";

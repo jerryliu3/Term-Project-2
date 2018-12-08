@@ -14,10 +14,11 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     include('create.php');
 }
+else{
+	mysqli_close($conn);
+	ob_end_clean();
+	echo "Connected successfully.<br>";
+	include('index.html');
+}
 
-echo "Connected successfully";
-
-mysqli_close($conn);
-
-include('index.html');
 ?>
